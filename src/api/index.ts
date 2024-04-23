@@ -5,11 +5,12 @@ import axios from 'axios';
 
 
 class AnimeData {
-  async getData(): Promise<{ data: Anime }> {
+  async getData(params: any | null = null): Promise<{ data: { data: SearchAnime[] } }> {
     const data = {
       route: 'https://api.jikan.moe/v4/anime',
-      params: {}
+      params
     }
+
     return ApiService.get(data)
   }
 

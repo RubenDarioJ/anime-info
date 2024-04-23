@@ -1,44 +1,53 @@
 <script setup lang="ts">
-import { ref, computed  } from 'vue'
+import { ref, onMounted  } from 'vue'
 import type { Anime } from '@/types/anime.type'
 import type { SearchAnime } from '@/types/search-anime.type'
 import apiServices from '@/api/index'
 
 const anime = ref<Anime | null>(null)
-const query = ref({
-  query: ''
-});
-const searchAnime = ref<SearchAnime | null>(null);
+const query = ref('')
+const animeList = ref<SearchAnime[]>([])
 
-apiServices.getData().then((response) => {
-  console.log(response)
-  anime.value = response.data
-})
+const loading = ref(false)
 
-apiServices.searchData({ query }).then((response) => {
-  console.log(response)
-  searchAnime.value = response.data
-})
+const getAnimeList = () => {
+  loading.value = true
 
+  apiServices.getData({ q: query.value })
+    .then((response) => {
+      animeList.value = response.data.data
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+    .finally(() => {
+      loading.value = false
+    })
+}
 </script>
 
 <template>
   <div>
     <!-- <img :src="searchAnime?.data.images.jpg.image_url" alt=""> -->
-    <form @submit.prevent="apiServices.searchData({ query: query })">
-      <input type="text" placeholder="Search" v-model="query">
-      <button type="submit">Search</button>
+    <form @submit.prevent="getAnimeList">
+      <input :disabled="loading" type="text" placeholder="Search" v-model="query">
+      <button :disabled="loading" type="submit">{{ loading ? 'Searching' : 'Search' }}</button>
     </form>
-    <div class="results" v-if="searchAnime">
-      <div class="result" v-for="item in searchAnime?.data.length > 0 ? searchAnime?.data : anime?.data">
-        <img :src="item?.images.jpg.image_url" alt="">
-        <p>{{ item?.episodes }}</p>
+
+    <div v-if="animeList.length" class="results">
+      <div
+        v-for="item in animeList"
+        class="result"
+      >
+        <img :src="item.images.jpg.image_url" alt="">
+        <p>{{ item.title }}</p>
       </div>
     </div>
-    <ul>
+
+    <!-- <ul>
       <li v-for="item in anime?.data">{{ item?.title }}</li>
       <li v-for="item in anime?.data">{{ item?.status }}</li>
-    </ul>
+    </ul> -->
   </div>
 </template>
 

@@ -1,6 +1,7 @@
 import ApiService from '@/services/main-services/api-service'
 import type { Anime } from '@/types/anime.type'
 import type { SearchAnime } from '@/types/search-anime.type'
+import type { RandomAnime } from '@/types/random-anime.type'
 import axios from 'axios';
 
 
@@ -30,11 +31,12 @@ class AnimeData {
   //   }
   //   return ApiService.get(data)
   // }
-  async getRandom(): Promise<{ data: SearchAnime }> {
+  async getRandom(): Promise<{ data: { data: RandomAnime } }> {
     const data = {
         route: 'https://api.jikan.moe/v4/random/anime',
         params: {}
     }
+
     return ApiService.get(data)
   }
 }

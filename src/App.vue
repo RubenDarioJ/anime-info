@@ -5,6 +5,7 @@ import apiServices from '@/api/index'
 import NavBar from './components/NavBar.vue'
 import CarouselComponent from '@/components/Carousel.vue'
 
+
 const query = ref('')
 const animeList = ref<SearchAnime[]>([])
 
@@ -30,10 +31,11 @@ const getAnimeList = () => {
   <div>
     <NavBar />
     <CarouselComponent />
+    <TesComponent />
+    <!-- <CarouselComponent />
     <CarouselComponent />
     <CarouselComponent />
-    <CarouselComponent />
-    <CarouselComponent />
+    <CarouselComponent /> -->
     <div>
       <!-- <img :src="searchAnime?.data.images.jpg.image_url" alt=""> -->
       <form @submit.prevent="getAnimeList">

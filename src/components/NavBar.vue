@@ -2,11 +2,16 @@
 import { ref } from 'vue'
 import apiServices from '@/api/index'
 import type { SearchAnime } from '@/types/search-anime.type'
+import SeachInput from '@/components/SeachInput.vue'
 
 const query = ref('')
 const animeList = ref<SearchAnime[]>([])
 
 const loading = ref(false)
+
+const selectAnime = (anime: SearchAnime) => {
+  console.log('selectAnime', anime)
+}
 
 const getAnimeList = () => {
   loading.value = true
@@ -68,7 +73,8 @@ const getAnimeList = () => {
             <a class="nav-link disabled" aria-disabled="true">Disabled</a>
           </li> -->
         </ul>
-        <form @submit.prevent="getAnimeList" class="d-flex" role="search">
+
+        <!-- <form @submit.prevent="getAnimeList" class="d-flex" role="search">
           <input
             :disabled="loading"
             type="text"
@@ -80,7 +86,9 @@ const getAnimeList = () => {
           <button :disabled="loading" type="submit" class="btn btn-outline-success">
             <i class="bi bi-search"></i>
           </button>
-        </form>
+        </form> -->
+        <SeachInput v-model="query" @selected="selectAnime" :loading="false" />
+
       </div>
     </div>
   </nav>

@@ -19,23 +19,40 @@ const id = crypto.randomUUID()
 const loading = ref(false)
 const items = ref<RandomAnime[]>([])
 
-onMounted(() => {
-  for (let i = 0; i < 15; i++) {
-    apiServices.getRandom().then((response) => {
-      const anime = response.data.data // lo que obtenemos debemos pasarlo a nuestro items array
-      items.value.push(anime)
+onMounted(async () => {
+  // loading.value = true
+  while (items.value.length < 3) {
+    await apiServices.getRandom()
+      .then((response) => {
+        const anime = response.data.data
 
-      if (i === 2) {
-        loading.value = false
-      }
+        if (anime.popularity > 10000) {
+          return false
+        } else if (anime.rating !== 'PG-13 - Teens 13 or older') {
+          return false
+        }
 
-      const filteredData = items.value.filter((item) => {
-        return item.rating ===  'PG-13 - Teens 13 or older'
+        items.value.push(anime)
       })
-      console.log(filteredData)
-      items.value = filteredData
-    })
   }
+
+  // for (let i = 0; i < 3; i++) {
+  //   apiServices.getRandom()
+  //     .then((response) => {
+  //       const anime = response.data.data // lo que obtenemos debemos pasarlo a nuestro items array
+  //       items.value.push(anime)
+
+  //       const filteredData = items.value.filter((item) => {
+  //         return item.rating ===  'PG-13 - Teens 13 or older'
+  //       })
+  //       console.log(filteredData)
+  //       items.value = filteredData
+
+  //       if (i === 2) {
+  //         loading.value = false
+  //       }
+  //     })
+  // }
 })
 // onMounted(() => {
 //   for (let i = 0; i < 3; i++) {
@@ -60,8 +77,17 @@ onMounted(() => {
 
 <template>
   <div>
-    <div class="loading text-white" v-if="loading">Cargando...</div>
-    <div v-else :id="`random-anime-carousel-${id}`" class="carousel slide">
+    <div
+      v-if="loading"
+      class="loading text-white"
+    >
+      Cargando...
+    </div>
+    <div
+      v-else
+      :id="`random-anime-carousel-${id}`"
+      class="carousel slide"
+    >
       <div class="carousel-inner">
         <div
           class="carousel-item"

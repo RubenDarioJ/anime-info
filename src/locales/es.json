@@ -1,0 +1,25 @@
+{
+  "title": "Inicia sesión",
+  "login": {
+    "email": "Email o número de celular",
+    "password": "Contraseña"
+  },
+  "sign-in": "Iniciar sesión",
+  "or": "O",
+  "sign-in-code": "Usar un código de inicio de sesión",
+  "forgot-password": "¿Olvidaste la contraseña?",
+  "remember-me": "Recuérdame",
+  "new-to-netflix": "¿Primera vez en Netflix?",
+  "now": "Suscríbete ahora.",
+  "protected": "Esta página está protegida por Google reCAPTCHA para comprobar que no eres un robot.",
+  "more": "Más info.",
+  "footer": {
+    "question-number": "¿Preguntas? Llama al 1 (408) 469-4467 (USA)",
+    "faq": "Preguntas frecuentes",
+    "help": "Centro de ayuda",
+    "terms": "Términos de uso",
+    "privacy": "Privacidad",
+    "cookies": "Preferencias de cookies",
+    "information": "Información corporativa"
+  }
+}
